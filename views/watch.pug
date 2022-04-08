@@ -1,0 +1,14 @@
+block content
+    h1= title
+    -let results =[{watch_brand: "Titan" ,watch_type: "Analog" ,watch_cost: 65},{watch_brand:"Tommy hilfigure",watch_type:"Analog",watch_cost:17},{watch_brand:"Apple",watch_type:"Smart",watch_cost:34}]
+    div(class="container-fluid")
+     div(class="column")
+        each wat,index in results 
+            div(class="col-sm-2" onclick=`buy(${index})`)  #{wat.watch_brand}  
+            div(class="col-sm-2" onclick=`buy(${index})`)  #{wat.watch_type}
+            div(class="col-sm-2" onclick=`buy(${index})`)  #{wat.watch_cost}
+script.
+    function buy(n)
+    {
+        alert(`You have purchased item ${n+1}`);
+    }
