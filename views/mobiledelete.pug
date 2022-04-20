@@ -1,0 +1,51 @@
+extends layout
+block content
+    h1= title
+
+    if (toShow == null)
+        h3 No instance to delete
+    else
+        - let mobileid = toShow._id
+        - let mobilebrand = toShow.mobile_brand
+        - let mobilecost = toShow.mobile_cost
+        - let mobilemodel = toShow.mobile_model
+        - let actionid = "/resource/mobiles/" + mobileid
+        script let actionid = "#{actionid}"
+        div
+            div.row
+                div(class='mobileAttr mr-3') mobile ID is:
+                div #{mobileid}
+            div.row
+                div(class='mobileAttr mr-3') mobile Brand is:
+                div #{mobilebrand}
+            div.row
+                div(class='mobileAttr mr-3') mobile Model is:
+                div #{mobilemodel}
+            div.row
+                div(class='mobileAttr mr-3') mobile Cost is:
+                div #{mobilecost}    
+
+        button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+        button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+
+    script.
+        function cancel() {
+            window.location.href='/mobiles'
+        }
+    script.
+        function deleteOnid() {
+            console.log("starting delete")
+            // delete first
+            fetch(actionid, {
+                method: 'DELETE'
+            }).then((resp) => {
+                return resp.json();
+            }).then((body) => {
+                alert("Delete succeded")
+                window.location.href='/mobiles'
+                // TODO handle body
+            }).catch((error) => {
+                // TODO handle error
+                alert("Delete failed " + error )
+            });
+        }

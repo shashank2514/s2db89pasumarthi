@@ -1,0 +1,38 @@
+extends layout
+block content
+  h1= title
+
+  - let mobileid = toShow._id
+  - let mobile_brand = toShow.mobile_brand
+  - let mobile_cost = toShow.mobile_cost
+  - let mobile_model = toShow.mobile_model
+  div.row(class='mb-2')
+    div.mx-sm-5 ID is
+    div.mx-sm-5 #{mobileid}
+  - let actionid = "/resource/mobiles/" + mobileid
+  form(id='mobileForm', action= actionid, method="PUT")
+    div.form-group(class="mx-sm-5 mb-2")
+      label.mobileAttr(for='mobile_brand') Mobile brand
+      input#mobile_brand(type='text' name='mobile_brand' class="form-control")
+    div.form-group(class="mx-sm-5 mb-2")
+      label.mobileAttr(for='mobile_model') Mobile model
+      input#mobile_model(type='text' name='mobile_model' class="form-control")
+    div.form-group(class="mx-sm-5 mb-2")
+      label.mobileAttr(for='mobile_cost') Mobile cost
+      input#mobile_cost(type='number' name='mobile_cost' class="form-control")
+    input(type="submit" class="mx-sm-5 mb-2 btn btn-success")
+
+  script.
+    document.forms['mobileForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) 
+      }).then((resp) => {
+        return resp.json(); 
+      }).then((body) => {
+        alert("Update succeded")
+      }).catch((error) => {
+      alert("Update failed " + error )
+      });
+    });
