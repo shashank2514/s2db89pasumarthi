@@ -8,8 +8,12 @@ block content
     div(class="row")
       each mobiles, index in items
         div(class="col-sm-2" onclick=`buy(${index+1})`) #{mobiles.mobile_brand} - #{mobiles.mobile_color} - $#{mobiles.mobile_cost}
-  
+        button.btn( class="btn-primary ml-1", onclick= `dispatch(\"/mobiles/update/?id=${mobiles._id}\")` ) Update
+
   script.
     function buy(index){
       alert(`You purchased item ${index}`);
+    }
+    function dispatch(path){
+    window.location.href=path
     }
