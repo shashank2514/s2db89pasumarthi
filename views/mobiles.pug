@@ -4,11 +4,15 @@ block content
   h1= title
   p Welcome to #{title}
   - let items = results
+    p Click here to add new item to the collection
+    button(class="btn btn-success m-2" onclick="dispatch('/mobiles/create')") Create
   div(class="container-fluid")
     div(class="row")
       each mobiles, index in items
         div(class="col-sm-2" onclick=`buy(${index+1})`) #{mobiles.mobile_brand} - #{mobiles.mobile_color} - $#{mobiles.mobile_cost}
         button.btn( class="btn-primary ml-1", onclick= `dispatch(\"/mobiles/update/?id=${mobiles._id}\")` ) Update
+        button.btn( class="btn-info ml-1", onclick= destination1) Detail
+        button.btn( class="btn-danger ml-1", onclick= destination2) Delete
 
   script.
     function buy(index){

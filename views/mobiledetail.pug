@@ -4,18 +4,18 @@ block content
   - let mobileid = toShow._id
   - let mobilebrand = toShow.mobile_brand
   - let mobilecost = toShow.mobile_cost
-  - let mobilemodel = toShow.mobile_model
+  - let mobilecolor = toShow.mobile_color
   div
     table#pickle.table.table-hover.table-striped.table-bordered
       thead
           tr
               th mobile ID
               th mobile Brand
-              th mobile Model
+              th mobile model
               th mobile Cost
       tbody
           tr
               th(scope='row') 1
               td #{mobilebrand}
-              td #{mobilemodel}
+              td #{mobilecolor}
               td #{mobilecost}

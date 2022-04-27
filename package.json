@@ -1,5 +1,5 @@
 {
-  "name": "s2wb89pasumarthi",
+  "name": "s2wb27gaddameda",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
     "express": "^4.17.3",
     "express-session": "^1.17.2",
     "http-errors": "^2.0.0",
+    "mangodb": "^1.0.0",
     "mongodb": "^4.5.0",
     "mongoose": "^6.2.10",
     "morgan": "^1.10.0",

@@ -26,7 +26,7 @@ exports.mobile_create_post = async function (req, res) {
     console.log(req.body)
     let document = new Mobile();
     document.mobile_brand = req.body.mobile_brand;
-    document.mobile_model = req.body.mobile_model;
+    document.mobile_color = req.body.mobile_color;
     document.mobile_cost = req.body.mobile_cost;
     try {
         let result = await document.save();
@@ -57,7 +57,7 @@ exports.mobile_update_put = async function (req, res) {
         let toUpdate = await Mobile.findById(req.params.id)
         // Do updates of properties
         if (req.body.mobile_brand) toUpdate.mobile_brand = req.body.mobile_brand;
-        if (req.body.mobile_cost)  toUpdate.mobile_model = req.body.mobile_model;
+        if (req.body.mobile_cost)  toUpdate.mobile_color = req.body.mobile_color;
         if (req.body.mobile_color) toUpdate.mobile_cost = req.body.mobile_cost;
         let result = await toUpdate.save();
         console.log("Sucess " + result)

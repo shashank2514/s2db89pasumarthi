@@ -2,38 +2,41 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require("morgan");
+var logger = require('morgan');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    Account.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      else if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      else {
+        return done(null, user);
+      }
+    });
+  })
+);
+  
 
-passport.use(new LocalStrategy( 
-  function(username, password, done) { 
-    Account.findOne({ username: username }, function (err, user) { 
-      if (err) { return done(err); } 
-      if (!user) { 
-        return done(null, false, { message: 'Incorrect username.' }); 
-      } 
-      if (!user.validPassword(password)) { 
-        return done(null, false, { message: 'Incorrect password.' }); 
-      } 
-      return done(null, user); 
-    }); 
-  }))
-
-const connectionString = "mongodb+srv://sha:sha@cluster0.asknq.mongodb.net/learnMongo?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://mani:mani@cluster0.kmhj7.mongodb.net/learnMongo?retryWrites=true&w=majority";
 mongoose = require('mongoose');
 mongoose.connect(connectionString,
   { useNewUrlParser: true, useUnifiedTopology: true });
 
 var Costume = require("./models/costume");
 var Mobile = require("./models/mobile");
-var watchRouter= require('./routes/watch');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mobilesRouter = require('./routes/mobiles');
 var addmodsRouter = require('./routes/addmods');
 var selectorRouter = require('./routes/selector');
 var resourceRouter = require('./routes/resource');
+
 var app = express();
 
 // view engine setup
@@ -44,21 +47,29 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/watch', watchRouter);
 app.use('/mobiles', mobilesRouter);
 app.use('/addmods', addmodsRouter);
 app.use('/selector', selectorRouter)
 app.use('/resource', resourceRouter);
 
-// catch 404 and forward to error handler
-app.use(passport.initialize()); 
-app.use(passport.session()); 
-app.use(express.static(path.join(__dirname, 'public')));
 
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
@@ -108,25 +119,25 @@ async function recreateDB() {
 // Delete everything in Mobile
   await Mobile.deleteMany();
 
-  let instance5 = new Mobile({ mobile_brand: "Iphone", mobile_color: '13 max pro', mobile_cost: 6205 });
+  let instance5 = new Mobile({ mobile_brand: "xiomi", mobile_color: 'Mi 5', mobile_cost: 5005 });
   instance5.save(function (err, doc) {
     if (err) return console.error(err);
     console.log("First object saved in Mobile")
   });
 
-  let instance6 = new Mobile({ mobile_brand: "Samsung", mobile_color: 'Note 3', mobile_cost: 5207 });
+  let instance6 = new Mobile({ mobile_brand: "Zen", mobile_color: 'model x', mobile_cost: 909 });
   instance6.save(function (err, doc) {
     if (err) return console.error(err);
     console.log("Second object saved in Mobile")
   });
 
-  let instance7 = new Mobile({ mobile_brand: "One plus", mobile_color: '9 pro', mobile_cost: 4034 });
+  let instance7 = new Mobile({ mobile_brand: "Motrola", mobile_color: 'broad 36', mobile_cost: 405 });
   instance7.save(function (err, doc) {
     if (err) return console.error(err);
     console.log("Third object saved in Mobile")
   });
 
-  let instance8 = new Mobile({ mobile_brand: "Nokia", mobile_color: 'XR 20', mobile_cost: 1950 });
+  let instance8 = new Mobile({ mobile_brand: "Realme", mobile_color: 'm31 pro', mobile_cost: 895 });
   instance8.save(function (err, doc) {
     if (err) return console.error(err);
     console.log("Fourth object saved in Mobile")
